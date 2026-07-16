@@ -1,12 +1,11 @@
 import { createProcessStudioClient } from '@igrp/framework-process-studio-client';
-import { getAccessToken } from '@/lib/auth-helpers';
+import { serverSession } from '@/lib/auth';
 
 // Environment configuration for server-side
 const getServerConfig = async () => {
-  const token = await getAccessToken();
+  const session = await serverSession();
 
-
-  if (!token) {
+  if (!session?.accessToken) {
     throw new Error('Authentication required. Please log in to access this feature.');
   }
 
@@ -16,7 +15,7 @@ const getServerConfig = async () => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${token?.accessToken}`,
+      Authorization: `Bearer ${session.accessToken}`,
     },
   };
 

@@ -3,13 +3,13 @@
 import type React from 'react';
 import { useState } from 'react';
 import { 
-  IGRPBadgePrimitive, 
-  IGRPButtonPrimitive, 
-  IGRPCardContentPrimitive, 
-  IGRPCardDescriptionPrimitive, 
-  IGRPCardHeaderPrimitive, 
-  IGRPCardPrimitive, 
-  IGRPCardTitlePrimitive, 
+  IGRPBadge, 
+  IGRPButton, 
+  IGRPCardContent, 
+  IGRPCardDescription, 
+  IGRPCardHeader, 
+  IGRPCard, 
+  IGRPCardTitle, 
   IGRPIcon,
   IGRPIconName,
   useIGRPToast 
@@ -155,42 +155,42 @@ export function DelegatesHelper() {
 
   return (
     <div className="space-y-6">
-      <IGRPCardPrimitive>
-        <IGRPCardHeaderPrimitive>
-          <IGRPCardTitlePrimitive>Available Delegates</IGRPCardTitlePrimitive>
-          <IGRPCardDescriptionPrimitive>
+      <IGRPCard>
+        <IGRPCardHeader>
+          <IGRPCardTitle>Available Delegates</IGRPCardTitle>
+          <IGRPCardDescription>
             Delegates allow you to integrate custom logic or external services directly into BPMN
             process workflows. Use them in Service Tasks by setting the Implementation Type to{' '}
-            <IGRPBadgePrimitive variant="secondary">Delegate Expression</IGRPBadgePrimitive>
-          </IGRPCardDescriptionPrimitive>
-        </IGRPCardHeaderPrimitive>
-      </IGRPCardPrimitive>
+            <IGRPBadge variant="soft">Delegate Expression</IGRPBadge>
+          </IGRPCardDescription>
+        </IGRPCardHeader>
+      </IGRPCard>
 
       <div className="grid gap-6">
         {delegates.map((delegate) => (
-          <IGRPCardPrimitive key={delegate.name}>
-            <IGRPCardHeaderPrimitive>
+          <IGRPCard key={delegate.name}>
+            <IGRPCardHeader>
               <div className="flex items-center gap-3">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <IGRPIcon iconName={delegate.icon} />
                 </div>
                 <div>
-                  <IGRPCardTitlePrimitive className="text-xl">{delegate.name}</IGRPCardTitlePrimitive>
-                  <IGRPBadgePrimitive variant="outline" className="mt-1">
+                  <IGRPCardTitle className="text-xl">{delegate.name}</IGRPCardTitle>
+                  <IGRPBadge variant="outline" className="mt-1">
                     {delegate.category}
-                  </IGRPBadgePrimitive>
+                  </IGRPBadge>
                 </div>
               </div>
-              <IGRPCardDescriptionPrimitive className="mt-3">{delegate.description}</IGRPCardDescriptionPrimitive>
-            </IGRPCardHeaderPrimitive>
-            <IGRPCardContentPrimitive className="space-y-4">
+              <IGRPCardDescription className="mt-3">{delegate.description}</IGRPCardDescription>
+            </IGRPCardHeader>
+            <IGRPCardContent className="space-y-4">
               {/* Syntax */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="text-sm font-semibold text-foreground">
                     Delegate Expression Syntax
                   </h4>
-                  <IGRPButtonPrimitive
+                  <IGRPButton
                     variant="ghost"
                     size="sm"
                     onClick={() =>
@@ -203,7 +203,7 @@ export function DelegatesHelper() {
                       <IGRPIcon iconName="Copy" />
                     )}
                     Copy Syntax
-                  </IGRPButtonPrimitive>
+                  </IGRPButton>
                 </div>
                 <div className="bg-muted rounded-lg p-3 font-mono text-sm">{delegate.syntax}</div>
               </div>
@@ -215,11 +215,11 @@ export function DelegatesHelper() {
                   <div className="space-y-2">
                     {delegate.parameters.map((param) => (
                       <div key={param.name} className="flex items-center gap-3 text-sm group">
-                        <IGRPBadgePrimitive variant="secondary" className="font-mono shrink-0">
+                        <IGRPBadge variant="soft" className="font-mono shrink-0">
                           {param.name}
-                        </IGRPBadgePrimitive>
+                        </IGRPBadge>
                         <span className="text-muted-foreground flex-1">{param.description}</span>
-                        <IGRPButtonPrimitive
+                        <IGRPButton
                           variant="ghost"
                           size="sm"
                           className="size-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -236,7 +236,7 @@ export function DelegatesHelper() {
                           ) : (
                             <IGRPIcon iconName="Copy" className="size-3.5" />
                           )}
-                        </IGRPButtonPrimitive>
+                        </IGRPButton>
                       </div>
                     ))}
                   </div>
@@ -252,18 +252,18 @@ export function DelegatesHelper() {
                   <pre className="whitespace-pre-wrap text-foreground">{delegate.example}</pre>
                 </div>
               </div>
-            </IGRPCardContentPrimitive>
-          </IGRPCardPrimitive>
+            </IGRPCardContent>
+          </IGRPCard>
         ))}
       </div>
 
       {/* Quick Reference */}
-      <IGRPCardPrimitive>
-        <IGRPCardHeaderPrimitive>
-          <IGRPCardTitlePrimitive>Quick Reference</IGRPCardTitlePrimitive>
-          <IGRPCardDescriptionPrimitive>How to use delegates in your BPMN process</IGRPCardDescriptionPrimitive>
-        </IGRPCardHeaderPrimitive>
-        <IGRPCardContentPrimitive className="space-y-4">
+      <IGRPCard>
+        <IGRPCardHeader>
+          <IGRPCardTitle>Quick Reference</IGRPCardTitle>
+          <IGRPCardDescription>How to use delegates in your BPMN process</IGRPCardDescription>
+        </IGRPCardHeader>
+        <IGRPCardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex gap-3">
               <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
@@ -315,8 +315,8 @@ export function DelegatesHelper() {
               </div>
             </div>
           </div>
-        </IGRPCardContentPrimitive>
-      </IGRPCardPrimitive>
+        </IGRPCardContent>
+      </IGRPCard>
     </div>
   );
 }

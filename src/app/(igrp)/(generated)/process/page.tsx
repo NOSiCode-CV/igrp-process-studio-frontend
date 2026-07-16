@@ -274,7 +274,6 @@ export default function PageProcessComponent() {
                 label={`Projeto`}
                 variant={`single`}
                 showSearch={true}
-                gridSize={`full`}
                 placeholder={`Seleccione projeto...`}
                 selectLabel={`Sem projetos`}
                 className={cn('col-span-1')}
@@ -288,7 +287,6 @@ export default function PageProcessComponent() {
                 label={`Estado`}
                 variant={`single`}
                 showSearch={true}
-                gridSize={`full`}
                 placeholder={`Seleccione estado...`}
                 selectLabel={`Sem opções`}
                 className={cn('col-span-1')}

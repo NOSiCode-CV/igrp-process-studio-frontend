@@ -1,16 +1,8 @@
-'use client';
-
-import { useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { IGRPToaster } from '@igrp/igrp-framework-react-design-system';
-
-export default function GeneratedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <IGRPToaster richColors />
-    </QueryClientProvider>
-  );
+export default function IGRPGeneratedLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  // Trivial pass-through. The app-wide providers (e.g. IGRPQueryProvider) live in
+  // the hand-owned (igrp)/layout.tsx so they cover the whole authenticated app and
+  // survive a Studio regeneration of this (generated) shell.
+  return <>{children}</>;
 }

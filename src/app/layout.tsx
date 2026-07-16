@@ -1,33 +1,30 @@
-import '@/styles/globals.css';
-/* start area to add custom styles */
+import "@/styles/globals.css";
 
-/* end area to add custom styles */
+import type { Metadata, Viewport } from "next";
 
-import '@igrp/framework-process-studio-bpmn-editor/dist/styles.css';
+import { IGRPRootLayout } from "@igrp/framework-next";
+import type { IGRPLayoutConfigArgs } from "@igrp/framework-next-types";
+import { IGRP_META_THEME_COLORS } from "@igrp/igrp-framework-react-design-system";
 
-import '@igrp/framework-next-ui/dist/styles.css';
-import '@igrp/igrp-framework-react-design-system/dist/styles.css';
+import { createConfig } from "@/igrp.template.config";
+import { getLayoutConfig } from "@/lib/dal";
 
-import type { Metadata, Viewport } from 'next';
-import { IGRPRootLayout } from '@igrp/framework-next';
-import { IGRP_META_THEME_COLORS } from '@igrp/igrp-framework-react-design-system';
-
-import { configLayout } from '@/actions/igrp/layout';
-import { createConfig } from '@/igrp.template.config';
-import { IGRPLayoutConfigArgs } from '@igrp/framework-next-types';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: 'IGRP | Applications Center',
-  description: 'IGRP | Applications Center',
-  icons: { icon: '/igrp/logo-no-text.png' },
+  title: "IGRP | Template Aplicações",
+  description: "IGRP | Template Aplicações",
+  icons: { icon: `${basePath}/logo-no-text.png` },
 };
 
 export const viewport: Viewport = {
   themeColor: IGRP_META_THEME_COLORS.light,
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const layoutConfig = await configLayout();
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const layoutConfig = await getLayoutConfig();
   const config = await createConfig(layoutConfig as IGRPLayoutConfigArgs);
 
   return <IGRPRootLayout config={config}>{children}</IGRPRootLayout>;
