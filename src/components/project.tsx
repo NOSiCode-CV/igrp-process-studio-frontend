@@ -46,11 +46,13 @@ export default function Project({ open, setOpen, initialData, invalidateQueries 
 
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { igrpToast } = useIGRPToast()
 
   async function handleSubmit(values: z.infer<any>): Promise<void | undefined> {
 
+    setIsSubmitting(true);
     try {
       const data: any = {
         ...initialData,
@@ -73,6 +75,8 @@ export default function Project({ open, setOpen, initialData, invalidateQueries 
         type: 'error',
       });
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
 
   }
@@ -161,6 +165,8 @@ export default function Project({ open, setOpen, initialData, invalidateQueries 
                 showIcon={true}
                 iconName={`Save`}
                 onClick={() => formform1Ref.current?.submit()}
+                loading={isSubmitting}
+                loadingText={`A guardar...`}
               >
               Guardar
             </IGRPButton>

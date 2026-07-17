@@ -38,6 +38,10 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
 
   const [isAutoSave, setIsAutoSave] = useState<boolean>(false);
 
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
+  const [isDeploying, setIsDeploying] = useState<boolean>(false);
+
   const [copiedId, setCopiedId] = useState<string>(`''`);
 
   const { igrpToast } = useIGRPToast();
@@ -53,6 +57,7 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
 
       if (!processKey || !xml) return;
 
+      if (!isAutoSave) setIsSaving(true);
       await saveDraft({ content: xml, processKey });
 
       if (!isAutoSave)
@@ -70,12 +75,14 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
       console.log(error);
     } finally {
       setIsAutoSave(false);
+      setIsSaving(false);
     }
   }
 
   async function handleDeploy(): Promise<void | undefined> {
     try {
       if (!data) return;
+      setIsDeploying(true);
       await deployProcessDefinition(data.processKey, { content: bpmnXml });
       igrpToast({
         title: 'Success',
@@ -89,6 +96,8 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
         type: 'error',
       });
       console.log(error);
+    } finally {
+      setIsDeploying(false);
     }
   }
 
@@ -183,6 +192,8 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
               showIcon={false}
               className={cn('bg-green-600 hover:bg-green-600')}
               onClick={handleDeploy}
+              loading={isDeploying}
+              loadingText={`A publicar...`}
             >
               Publicar
             </IGRPButton>
@@ -194,6 +205,8 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
               showIcon={true}
               iconName={`Save`}
               onClick={() => handleSave('', '', false)}
+              loading={isSaving}
+              loadingText={`A guardar...`}
             >
               Guardar
             </IGRPButton>
