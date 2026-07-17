@@ -7,6 +7,7 @@
 /* Also scan IGRP packages so Tailwind generates their utilities too */
 @source "../../node_modules/@igrp/framework-next-ui/dist/**/*.{js,jsx,ts,tsx,mjs,cjs}";
 @source "../../node_modules/@igrp/igrp-framework-react-design-system/dist/**/*.{js,jsx,ts,tsx,mjs,cjs}";
+@source "../../node_modules/@igrp/framework-process-studio-bpmn-editor/dist/**/*.{js,jsx,ts,tsx,mjs,cjs}";
 
 /* Import tokens from design-system only (it has the most complete set of tokens) */
 @import "@igrp/igrp-framework-react-design-system/tokens";
