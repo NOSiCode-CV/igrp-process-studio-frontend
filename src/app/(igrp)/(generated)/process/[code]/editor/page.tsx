@@ -153,7 +153,7 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
 
   useEffect(() => {
     if (isLoading || !data) return;
-    const camundaXml = convertActivitiToCamunda(data.bpmFileContent);
+    const camundaXml = convertActivitiToCamunda(data.bpmFileContent ?? '');
     const _depDate = formatDeploymentDate(data.deploymentDate);
     const _depSuffix = _depDate ? ` em ${_depDate}` : '';
     setPageHeader1Description(

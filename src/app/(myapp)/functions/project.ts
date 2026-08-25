@@ -1,10 +1,14 @@
 'use server'
-import { Project } from '@igrp/framework-process-studio-types';
+import { Project, ProjectFilter } from '@igrp/framework-process-studio-types';
 import { createServerClient } from '../lib/server-client';
 
-export const getProject = async () => {
+export const getProject = async (filter?: ProjectFilter) => {
   const client = await createServerClient();
-  return await client.projects.getAll();
+  return await client.projects.getAll({
+    pageNumber: filter?.pageNumber ?? '0',
+    pageSize: filter?.pageSize ?? '100',
+    appCode: filter?.appCode,
+  });
 };
 
 export const getProjectByCode = async (code: string) => {
@@ -22,15 +26,32 @@ export const createOrUpdateProject = async (project: Project) => {
 
 export const createProject = async (project: Project) => {
   const client = await createServerClient();
-  return await client.projects.create(project);
+  return await client.projects.create({
+    ...project,
+    appCode: project.appCode || process.env.IGRP_APP_CODE || undefined,
+  });
 };
 
 export const updateProject = async (project: Project) => {
   const client = await createServerClient();
-  return await client.projects.update(project);
+  return await client.projects.update({
+    ...project,
+    appCode: project.appCode || process.env.IGRP_APP_CODE || undefined,
+  });
 };
 
-export const deleteProject = async (code: string) => {
+export const enableProject = async (projectId: string) => {
   const client = await createServerClient();
-  return await client.projects.delete(code);
+  return await client.projects.enable(projectId);
+};
+
+export const disableProject = async (projectId: string) => {
+  const client = await createServerClient();
+  return await client.projects.disable(projectId);
+};
+
+/** Soft-delete: API replaced DELETE with PATCH .../disable. */
+export const deleteProject = async (projectId: string) => {
+  const client = await createServerClient();
+  return await client.projects.delete(projectId);
 };

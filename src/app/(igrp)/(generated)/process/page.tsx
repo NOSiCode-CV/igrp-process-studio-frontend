@@ -34,7 +34,11 @@ import {
   IGRPDataTableButtonLink,
   IGRPDataTableButtonAlert,
 } from '@igrp/igrp-framework-react-design-system';
-import { useProcessDefinitionsList, useDeleteProcessDefinition } from '@/app/(myapp)/hooks/process';
+import {
+  useProcessDefinitionsList,
+  useDeleteProcessDefinition,
+  useProcessDefinitionStates,
+} from '@/app/(myapp)/hooks/process';
 import { IGRPLoadingSpinner } from '@igrp/igrp-framework-react-design-system';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
@@ -99,6 +103,7 @@ export default function PageProcessComponent() {
       projectName: filterProjectName,
       state: filterState,
     });
+  const { data: processStateOptions } = useProcessDefinitionStates();
   const { mutate: deleteProcess } = useDeleteProcessDefinition();
 
   useEffect(() => {
@@ -108,8 +113,8 @@ export default function PageProcessComponent() {
     setStatstatsCard1Value(0);
     setStatstatsCard3Value(0);
     setFilterProjectOptions(projectOptions || []);
-    setFilterStateOptions(getStatusProcessDefinition() || []);
-  }, [isLoading, processDefinitions, projectOptions, totalElements]);
+    setFilterStateOptions(processStateOptions || getStatusProcessDefinition());
+  }, [isLoading, processDefinitions, projectOptions, totalElements, processStateOptions]);
 
   return (
     <div className={cn('page', 'space-y-6')}>

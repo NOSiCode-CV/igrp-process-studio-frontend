@@ -15,15 +15,19 @@ export const getDataTypes = async () => {
   ];
 };
 
+/**
+ * Fallback for `GET /parameterization/process-definition-state`.
+ * Labels match `ProcessDefinitionState` on the process-studio API.
+ */
 export const getStatusProcessDefinition = () => {
   return [
-    {
-      label: 'Publicado',
-      value: 'PUBLISHED',
-    },
-    {
-      label: 'Rascunho',
-      value: 'DRAFT',
-    },
+    { label: 'Rascunho', value: 'DRAFT' },
+    { label: 'Validado internamente, mas ainda não publicado', value: 'VALIDATED' },
+    { label: 'Publicado', value: 'PUBLISHED' },
+    { label: 'Obsoleto', value: 'DEPRECATED' },
+    { label: 'Arquivado', value: 'ARCHIVED' },
+    { label: 'Temporariamente desativado.', value: 'DISABLED' },
+    { label: 'Erro no parsing', value: 'ERROR' },
+    { label: 'Eliminado', value: 'DELETED' },
   ];
 };

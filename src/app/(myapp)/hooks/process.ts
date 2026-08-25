@@ -7,9 +7,11 @@ import {
   deleteProcessDefinition,
   getProcessDefinitionById,
   getProcessDefinitions,
+  getProcessDefinitionStates,
   getVariables,
   saveDiagramProcessDefinition,
 } from '../functions/process-definition';
+import { getStatusProcessDefinition } from '../functions/domains';
 import {
   PaginatedResponse,
   ProcessDefinition,
@@ -36,7 +38,7 @@ export const useProcessDefinition = () => {
     const allProcessDefinitions = queryResult.data?.content.flatMap((project) =>
       project.processDefinitions.map((processDefinition) => ({
         ...processDefinition,
-        version: processDefinition.version || 'N/D',
+        version: processDefinition.version != null ? String(processDefinition.version) : 'N/D',
         projectName: project.name,
       })),
     );
@@ -168,6 +170,25 @@ export const useProcessDefinitionsList = (filter?: ProcessDefinitionFilter) => {
     totalElements: processDefinitions?.length ?? queryResult.data?.totalElements ?? 0,
     totalPages: queryResult.data?.totalPages ?? 0,
   };
+};
+
+/**
+ * Process-definition states from `GET /parameterization/process-definition-state`.
+ * Falls back to the local enum if the parameterization endpoint is unavailable.
+ */
+export const useProcessDefinitionStates = () => {
+  return useQuery({
+    queryKey: ['process', 'states'],
+    queryFn: async () => {
+      try {
+        return await getProcessDefinitionStates();
+      } catch {
+        return getStatusProcessDefinition();
+      }
+    },
+    staleTime: 5 * 60_000,
+    placeholderData: getStatusProcessDefinition(),
+  });
 };
 
 /**

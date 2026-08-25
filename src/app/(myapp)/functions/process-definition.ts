@@ -91,6 +91,16 @@ export const deleteProcessDefinition = async (processDefinitionId: string) => {
   return await client.processDefinitions.delete(processDefinitionId);
 };
 
+export const restoreProcessDefinition = async (processDefinitionId: string) => {
+  const client = await createServerClient();
+  return await client.processDefinitions.restore(processDefinitionId);
+};
+
+export const getProcessDefinitionStates = async () => {
+  const client = await createServerClient();
+  return await client.processDefinitions.getStates();
+};
+
 export const saveDiagramProcessDefinition = async (
   processDefinitionId: string,
   processDefinition: { content: string },
