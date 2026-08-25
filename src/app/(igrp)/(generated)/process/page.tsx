@@ -231,6 +231,7 @@ export default function PageProcessComponent() {
                 showSubmitButton={true}
                 className={cn('py-1')}
                 onSearch={(e) => setFilterProcessName(typeof e === 'string' ? e : (e ?? ''))}
+                setValueChange={(value) => setFilterProcessName(value)}
                 value={filterProcessName}
               ></IGRPInputSearch>
             </div>

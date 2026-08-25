@@ -68,11 +68,12 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
         });
     } catch (error: any) {
       igrpToast({
-        title: 'Error',
-        description: `An error occurred while processing the data. [${error.message}]`,
+        title: 'Erro ao guardar',
+        description:
+          error?.message?.trim() || 'Não foi possível guardar o processo. Tente novamente.',
         type: 'error',
       });
-      console.log(error);
+      console.error('[editor] save failed:', error);
     } finally {
       setIsAutoSave(false);
       setIsSaving(false);
@@ -91,11 +92,12 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
       });
     } catch (error: any) {
       igrpToast({
-        title: 'Error',
-        description: `An error occurred while processing the data. [${error.message}]`,
+        title: 'Erro ao publicar',
+        description:
+          error?.message?.trim() || 'Não foi possível publicar o processo. Tente novamente.',
         type: 'error',
       });
-      console.log(error);
+      console.error('[editor] deploy failed:', error);
     } finally {
       setIsDeploying(false);
     }
