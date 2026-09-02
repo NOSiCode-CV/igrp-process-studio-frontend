@@ -24,11 +24,11 @@ importers:
         specifier: 0.1.0-beta.13
         version: 0.1.0-beta.13(@codemirror/state@6.7.0)(@codemirror/view@6.43.2)(@tanstack/react-table@8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(date-fns@4.4.0)(diagram-js@15.18.0)(next-auth@4.24.13(next@15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(next@15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-hook-form@7.80.0(react@19.2.7))(react@19.2.7)(recharts@2.15.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(zeebe-bpmn-moddle@1.15.0)
       '@igrp/framework-process-studio-client':
-        specifier: 0.0.1-beta.15
-        version: 0.0.1-beta.15
+        specifier: 0.0.1-beta.16
+        version: 0.0.1-beta.16
       '@igrp/framework-process-studio-types':
-        specifier: 0.0.1-beta.15
-        version: 0.0.1-beta.15
+        specifier: 0.0.1-beta.16
+        version: 0.0.1-beta.16
       '@igrp/igrp-framework-react-design-system':
         specifier: 0.1.0-beta.141
         version: 0.1.0-beta.141(@tanstack/react-table@8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(date-fns@4.4.0)(lucide-react@0.518.0(react@19.2.7))(next@15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-hook-form@7.80.0(react@19.2.7))(react@19.2.7)(recharts@2.15.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(zod@4.4.3)
@@ -314,12 +314,12 @@ packages:
       react: ^19.1.0
       react-dom: ^19.1.0
 
-  '@igrp/framework-process-studio-client@0.0.1-beta.15':
-    resolution: {integrity: sha512-uqY/9D4D6jWfJrGUzwIn5auIaEU5VabvBwjsIyB6Gh0TABsz7A1jerJmHwRADB2sEG0WF5Q7G1ugikUYn3wInA==}
+  '@igrp/framework-process-studio-client@0.0.1-beta.16':
+    resolution: {integrity: sha512-uwB2+GR8dJhPW1jsZk9CB469p+bfLo2HeUhlbUaRRWjZgRiLpkk7JPJTuF4JyQfuCz3ylADl9NOc46yUJQcOjw==}
     engines: {node: '>=20.x.x'}
 
-  '@igrp/framework-process-studio-types@0.0.1-beta.15':
-    resolution: {integrity: sha512-XS92buTqCmTgvMueT/F2SK0oKskZY3qU5ROz86mnBw1q5hBub8WPAjIt8h9GNFLqUVfYwOaac4/polP9jayeCg==}
+  '@igrp/framework-process-studio-types@0.0.1-beta.16':
+    resolution: {integrity: sha512-KKmmF2cnAjwkhjfkmFOOYPvkmTJci9ZokCukCuvCEO56Sdnua6WrgSw2dvqPfhUHVzry7Wwy9b6l2BGc9JP16Q==}
     engines: {node: '>=20.x.x'}
 
   '@igrp/igrp-framework-react-design-system@0.1.0-beta.141':
@@ -3583,11 +3583,11 @@ snapshots:
       - recharts
       - zeebe-bpmn-moddle
 
-  '@igrp/framework-process-studio-client@0.0.1-beta.15':
+  '@igrp/framework-process-studio-client@0.0.1-beta.16':
     dependencies:
-      '@igrp/framework-process-studio-types': 0.0.1-beta.15
+      '@igrp/framework-process-studio-types': 0.0.1-beta.16
 
-  '@igrp/framework-process-studio-types@0.0.1-beta.15': {}
+  '@igrp/framework-process-studio-types@0.0.1-beta.16': {}
 
   '@igrp/igrp-framework-react-design-system@0.1.0-beta.141(@tanstack/react-table@8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(date-fns@4.4.0)(lucide-react@0.518.0(react@19.2.7))(next@15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-hook-form@7.80.0(react@19.2.7))(react@19.2.7)(recharts@2.15.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(zod@3.25.76)':
     dependencies:
