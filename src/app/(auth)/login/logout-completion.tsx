@@ -42,8 +42,14 @@ export function LogoutCompletion() {
         // full reload also forces every server component to re-read the now-
         // cleared session.
         clearLogoutPending();
+        // Land on /login with ?loggedOut=1 so the server skips auto sign-in: a
+        // user who just signed out must see the form, not be sent straight back
+        // to the IdP (which, if the SSO session is still alive, would sign them
+        // right back in).
         const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-        window.location.replace(`${window.location.origin}${basePath}/login`);
+        window.location.replace(
+          `${window.location.origin}${basePath}/login?loggedOut=1`,
+        );
       }
     })();
   }, []);

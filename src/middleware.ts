@@ -1,9 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import {
-  getTokenFromRequest,
-  isTokenExpiredOrFailed,
-} from "@/lib/auth-edge";
+// Edge runtime: import the instance from its Edge-safe module, NOT "@/lib/auth"
+// (which also carries Node-only session helpers — see lib/auth-instance.ts).
+import { auth } from "@/lib/auth-instance";
 import { LOGOUT_PENDING_COOKIE } from "@/lib/logout-pending";
 import { isAuthBypass, sanitizeCallbackUrl } from "@/lib/utilities";
 
@@ -61,7 +60,13 @@ function buildCspReportOnly(): string {
 const SECURITY_HEADERS: Record<string, string> = {
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
-  "X-XSS-Protection": "1; mode=block",
+  // Deliberately "0", not "1; mode=block". The legacy XSS Auditor this header
+  // controls was removed from every current browser, and where it still exists
+  // its filtering has itself been an XSS vector (it can be abused to suppress
+  // legitimate script and to probe cross-origin content). "0" disables it
+  // explicitly, which is the current OWASP / Chrome guidance. Real XSS defence
+  // here is the CSP above.
+  "X-XSS-Protection": "0",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "camera=(), microphone=(), geolocation=(), interest-cohort=()",
@@ -84,7 +89,11 @@ function withSecurityHeaders(response: NextResponse): NextResponse {
 
 const AUTH_UI_PREFIXES = ["/login", "/logout", "/api/auth"];
 
-const PUBLIC_PATHS = new Set(["/login", "/logout", "/api/auth"]);
+// `/api/health` is the container HEALTHCHECK target (docker/*/Dockerfile). Behind
+// auth it answered 307 → /login, and `wget` followed the redirect — so the probe
+// tested the login page at the public origin (or failed outright when the
+// container cannot reach that origin) and never reached the health route.
+const PUBLIC_PATHS = new Set(["/login", "/logout", "/api/auth", "/api/health"]);
 const PUBLIC_PREFIXES = ["/login/", "/logout/", "/api/auth/"];
 const STATIC_PREFIXES = ["/_next/", "/static/", "/favicon.ico"];
 
@@ -96,6 +105,17 @@ function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   if (PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return true;
   if (STATIC_PREFIXES.some((p) => pathname.startsWith(p))) return true;
+  // Belt-and-braces only: the DEFAULT matcher exported as `auth.config` already
+  // excludes `.*\..*`, so under the stock config this branch never runs — a
+  // request for a dotted path does not wake the middleware at all. It stays
+  // because the matcher is overridable (`withIGRPAuth({ matcher })`), and a
+  // consumer who widens it would otherwise lose the static-asset skip.
+  //
+  // It is NOT the auth boundary for dotted PAGE routes (e.g. a dynamic segment
+  // that captures "john.doe"). Those skip middleware under the stock matcher
+  // too — they are protected because `(igrp)/layout.tsx` calls `verifySession()`
+  // on the server for every route beneath it. Do not move a protected route out
+  // from under that layout on the assumption middleware covers it.
   if (/\.[^/]+$/.test(pathname)) return true;
   return false;
 }
@@ -135,8 +155,13 @@ export async function middleware(request: NextRequest) {
   };
 
   // Redirects to /login with the current path as callbackUrl.
+  //
+  // Origin resolution is the framework's (`auth.resolveAppUrl`), not
+  // `new URL(path, request.url)`: behind a TLS-terminating proxy `request.url`
+  // carries the INTERNAL origin, so a Location built from it points the browser
+  // somewhere it cannot reach. One resolver for every redirect below.
   const loginRedirect = (): NextResponse => {
-    const loginUrl = new URL(`${BASE_PATH}/login`, request.url);
+    const loginUrl = auth.getLoginRedirectUrl(request);
     // Only set callbackUrl when it's a useful destination — never `/`, never
     // /login/* (would loop), never /logout/*.
     const safeCallback = sanitizeCallbackUrl(currentPath, BASE_PATH);
@@ -151,7 +176,7 @@ export async function middleware(request: NextRequest) {
   if (isAuthBypass()) {
     if (isAuthUiPath(pathname)) {
       return withSecurityHeaders(
-        NextResponse.redirect(new URL(`${BASE_PATH}/`, request.url)),
+        NextResponse.redirect(auth.resolveAppUrl("/", request)),
       );
     }
     return nextWithPath();
@@ -173,27 +198,24 @@ export async function middleware(request: NextRequest) {
       { pathname },
     );
     return withSecurityHeaders(
-      NextResponse.redirect(new URL(`${BASE_PATH}/login`, request.url)),
+      NextResponse.redirect(auth.getLoginRedirectUrl(request)),
     );
   }
 
-  let token: Awaited<ReturnType<typeof getTokenFromRequest>>;
+  let token: Awaited<ReturnType<typeof auth.getTokenFromRequest>>;
   try {
-    token = await getTokenFromRequest(request);
+    token = await auth.getTokenFromRequest(request);
   } catch (error) {
     console.error("[Middleware] getToken failed", error, { pathname });
     return loginRedirect();
   }
 
-  if (!token || isTokenExpiredOrFailed(token)) {
+  if (!token || auth.isTokenExpiredOrFailed(token)) {
     return loginRedirect();
   }
 
   return nextWithPath();
 }
 
-// Matcher: page routes only (legacy template). Must be an inline literal so
-// Next can statically analyse it (imported constants are not recognised).
-export const config = {
-  matcher: ["/", "/((?!apps|_next|favicon.ico|.*\\..*).*)", "/api/:path*"],
-};
+// Matcher: page routes only (legacy template)
+export const { config } = auth;
