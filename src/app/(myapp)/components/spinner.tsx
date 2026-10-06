@@ -1,5 +1,4 @@
-import { IGRPIcon } from '@igrp/igrp-framework-react-design-system';
-import { cn } from '@/lib/utils';
+import { IGRPIcon, cn } from '@igrp/igrp-framework-react-design-system';
 
 export interface SpinnerProps extends React.ComponentProps<'svg'> {
   isLoading?: boolean;
