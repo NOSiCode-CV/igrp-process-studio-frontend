@@ -189,10 +189,13 @@ export default function PageEditorComponent({ params }: { params: Promise<{ code
             <Spinner isLoading={isAutoSave}></Spinner>
             <IGRPButton
               id={`button2`}
-              variant={`destructive`}
+              variant={`default`}
               size={`default`}
-              showIcon={false}
-              className={cn('bg-green-600 hover:bg-green-600')}
+              showIcon={true}
+              iconName={`Upload`}
+              className={cn(
+                'bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-600/40',
+              )}
               onClick={handleDeploy}
               loading={isDeploying}
               loadingText={`A publicar...`}
