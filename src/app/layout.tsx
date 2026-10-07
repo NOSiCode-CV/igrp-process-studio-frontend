@@ -11,7 +11,7 @@ import { getLayoutConfig } from "@/lib/dal";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "IGRP | iGRP Process Studio",
+  title: "iGRP | iGRP Process Studio",
   description: "iGRP | Process Studio Frontend for IGR",
   icons: { icon: `${basePath}/logo-no-text.png` },
 };
