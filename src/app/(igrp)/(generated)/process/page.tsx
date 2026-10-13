@@ -221,7 +221,7 @@ export default function PageProcessComponent() {
             value={statstatsCard1Value}
           ></IGRPStatsCard>
         </div>
-        <div className={cn(' px-4 pt-2 space-y-3  border rounded-md')}>
+        <div className={cn('p-3 space-y-3 border rounded-md')}>
           <div className={cn('flex flex-row flex-wrap items-center justify-between gap-2')}>
             <div className={cn(' flex-1 min-w-[240px]')}>
               <IGRPInputSearch
