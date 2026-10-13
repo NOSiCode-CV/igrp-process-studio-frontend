@@ -12,10 +12,10 @@
     "publish:template": "powershell -ExecutionPolicy Bypass -File ./create-template/create-zip-template.ps1"
   },
   "dependencies": {
-    "@igrp/framework-next": "0.2.0-beta.5",
-    "@igrp/framework-next-auth": "0.2.0-beta.4",
-    "@igrp/framework-next-types": "0.2.0-beta.4",
-    "@igrp/framework-next-ui": "0.2.0-beta.5",
+    "@igrp/framework-next": "0.2.0-beta.6",
+    "@igrp/framework-next-auth": "0.2.0-beta.5",
+    "@igrp/framework-next-types": "0.2.0-beta.5",
+    "@igrp/framework-next-ui": "0.2.0-beta.6",
     "@igrp/framework-process-studio-bpmn-editor": "0.1.0-beta.13",
     "@igrp/framework-process-studio-client": "0.0.1-beta.16",
     "@igrp/framework-process-studio-types": "0.0.1-beta.16",
